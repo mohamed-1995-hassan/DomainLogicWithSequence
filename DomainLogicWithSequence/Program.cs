@@ -3,20 +3,10 @@ using DomainLogicWithSequence;
 
 static IPainter FindCheapestPaint(double sqMeters, IEnumerable<IPainter> painters)
 {
-	double bestPrice = 0;
-	IPainter cheapest = null;
-	foreach (IPainter painter in painters)
-	{
-		if (painter.IsAvailable)
-		{
-			double price = painter.EstimateCompensation(sqMeters);
-			if (cheapest == null || price < bestPrice)
-			{
-				cheapest = painter;
-            }
-        }
-	}
-	return cheapest;
+	return
+		painters
+			.Where(p => p.IsAvailable)
+			.WithMinmum(p => p.EstimateCompensation(sqMeters));
 }
 static void main(string[] args)
 {
